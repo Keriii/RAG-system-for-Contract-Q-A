@@ -1,0 +1,8 @@
+#ignore the virtual env
+week_11
+
+#ignore the data
+data
+
+#ignore the .env
+.env
