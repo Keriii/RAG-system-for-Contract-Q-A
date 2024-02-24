@@ -6,3 +6,13 @@ data
 
 #ignore the .env
 .env
+
+# Ignore React metadata
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# Ignore unnecessary build files
+/build/
+.DS_Store

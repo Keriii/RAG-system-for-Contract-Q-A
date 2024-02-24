@@ -1,0 +1,66 @@
+
+# Define LLM
+llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+
+# Define prompt template
+prompt_template = """You are an assistant for question-answering tasks. 
+Use the following pieces of retrieved context to answer the question. 
+If you don't know the answer, just say that you don't know. 
+Question: {question} 
+Context: {context} 
+Answer:
+"""
+
+prompt = ChatPromptTemplate.from_template(prompt_template)
+
+
+retrieval = RunnableParallel(
+    {"context": retriever,  "question": RunnablePassthrough()} 
+)
+
+chain = retrieval | prompt | llm | StrOutputParser()
+
+
+
+
+
+answers  = []
+contexts = []
+
+# traversing each question and passing into the chain to get answer from the system
+for question in questions:
+    answers.append(chain.invoke(question))
+    contexts.append([docs.page_content for docs in retriever.get_relevant_documents(question)])
+
+# Preparing the dataset
+data = {
+    "question": questions,
+    "answer": answers,
+    "contexts": contexts,
+    "ground_truth": ground_truth
+}
+
+# Convert dict to dataset
+dataset = Dataset.from_dict(data)
+
+
+
+from ragas import evaluate
+from ragas.metrics import (
+    faithfulness,
+    answer_relevancy,
+    context_recall,
+    context_precision,
+)
+
+result = evaluate(
+    dataset=dataset, 
+    metrics=[
+        context_precision,
+        context_recall,
+        faithfulness,
+        answer_relevancy,
+    ],
+)
+
+df = result.to_pandas()
