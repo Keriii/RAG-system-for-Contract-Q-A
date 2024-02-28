@@ -25,7 +25,7 @@ const CreatePost = () => {
         formData.append("file", form.file);
         
         try {
-            const response = await fetch("http://192.168.137.236:8000/query", {
+            const response = await fetch("http://127.0.0.1:8000/query", {
                 method: "POST",
                 body: formData,
             });
