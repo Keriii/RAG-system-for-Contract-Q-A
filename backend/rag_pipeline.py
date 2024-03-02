@@ -29,7 +29,7 @@ import os
 
 load_dotenv()
 
-OPENAI_KEY=os.environ["OPENAI_API_KEY"]
+OPENAI_KEY=os.environ["OPENAI_APIKEY"]
 
 file = '/home/kerod/Desktop/week_11/RAG-system-for-Contract-Q-A/data/Robinson Advisory.docx'
 
