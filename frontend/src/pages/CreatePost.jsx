@@ -20,15 +20,21 @@ const CreatePost = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("objective", form.objective);
-        formData.append("file", form.file);
         
+        // Create an object with the desired structure
+        const data = {
+            objective: form.objective // Assuming form.objective is the value you want to send
+        };
+    
         try {
             const response = await fetch("http://127.0.0.1:8000/query", {
                 method: "POST",
-                body: formData,
+                headers: {
+                    "Content-Type": "application/json" // Specify content type as JSON
+                },
+                body: JSON.stringify(data) // Stringify the object and send as the body
             });
+            
             if (response.ok) {
                 const responseData = await response.json();
                 setResult(responseData.result);
@@ -40,6 +46,7 @@ const CreatePost = () => {
             console.error(err);
         }
     };
+    
     
     return (
         <section className="bg-hero min-h-[calc(100vh)]">
