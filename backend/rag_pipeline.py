@@ -46,7 +46,10 @@ def text_splitter(doc):
     return chunk
 
 
+
 def create_vectoreStore(doc):
+    client = weaviate.Client(embedded_options=EmbeddedOptions)
+
     vectorStore =  Weaviate.from_documents(client =  client,
                                       documents= doc,
                                       embedding=OpenAIEmbeddings(),

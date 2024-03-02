@@ -21,7 +21,7 @@ class Query(BaseModel):
 
 def load_env_vars():
     load_dotenv()
-    return os.environ["OPENAI_API_KEY"]
+    return os.environ["OPENAI_APIKEY"]
 
 @app.get("/")
 async def root():
